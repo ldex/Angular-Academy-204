@@ -12,9 +12,12 @@ import { Title } from '@angular/platform-browser';
     selector: 'app-product-list',
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.css'],
+    animations: [fadeInAnimation]
 })
 export class ProductListComponent implements OnInit {
 
+    @HostBinding('@fadeInAnimation') animation = true;
+ 
     title = "Products";
     products$: Observable<Product[]>;
     selectedProduct: Product;
@@ -76,9 +79,12 @@ export class ProductListComponent implements OnInit {
     constructor(
         private productService: ProductService,
         private favouriteService: FavouriteService,
-        private router: Router) { }
+        private router: Router,
+        private titleService: Title) { }
 
     ngOnInit() {
+        this.titleService.setTitle('My Products List');
+
         this.products$ = this
             .productService
             .getProducts()
